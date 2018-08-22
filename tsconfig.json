@@ -1,47 +1,29 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
     "module": "es2015",
     "moduleResolution": "node",
-    "declaration": true,
-    "stripInternal": true,
-    "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "noEmitHelpers": false,
-    "strictNullChecks": false,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "allowUnreachableCode": false,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "dist",
-    "paths": {
-      "@angular/*": ["node_modules/@angular/*"],
-      "rxjs/*": ["node_modules/rxjs/*"],
-      "zone.js": ["node_modules/zone.js"]
-    },
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "lib": [
-      "es2015",
+      "es2017",
       "dom"
-    ]
-  },
-  "files": [
-    "index.ts"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
-  },
-  "angularCompilerOptions": {
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true,
-    "genDir": "./ngfactory"
-  },
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": { "rewriteTsconfig": false }
+    ],
+    "paths": {
+      "fabric8-analytics-dependency-editor": [
+        "dist/fabric8-analytics-dependency-editor"
+      ],
+      "fabric8-analytics-dependency-editor/*": [
+        "dist/fabric8-analytics-dependency-editor/*"
+      ]
+    }
+  }
 }

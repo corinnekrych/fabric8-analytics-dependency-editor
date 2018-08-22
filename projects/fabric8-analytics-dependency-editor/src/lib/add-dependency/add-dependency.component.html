@@ -1,0 +1,198 @@
+<div class="cards-pf addDependecyComponent">
+  <div class="row">
+    <div class="col-sm-12 fit">
+      <p class="heading" id="heading">
+        <span id="head-title">Dependencies</span>
+        <span class="badge" *ngIf="dependencies">{{(existDependencies?.length || 0) + (dependencies?.length || 0) }}</span>
+      </p>
+    </div>
+    <div class="col-sm-12 added-dep fit">
+      <div class="card-pf dep-card">
+        <h2 class="card-pf-title search-box">
+          <span class="search-text" id="search-text">Dependencies are added automatically based on the mission and runtime you select. Search or browse to add additional dependencies.</span>
+          <div class="row">
+            <div id="date-2" class="input-group date col-sm-7">
+              <input type="text" class="form-control bootstrap-datepicker" [(ngModel)]="dependencySearchString" (keyup)="getDependencies()" (change)="listenInputSearch()" placeholder="Web, Devtools, SQL..." (click)="searchDependenciesClicked()">
+              <span class="input-group-addon" (click)="getDependencies()">
+                <span class="pficon-search"></span>
+              </span>
+            </div>
+
+            <div class="pre-loader" *ngIf="isLoading">
+              <div class="pre-loader-spinner spinner"></div>
+              <span class="loader-text">Fetching dependencies ...</span>
+            </div>
+            <ul class="dropdown-menu" *ngIf="dependencySearchResult?.length">
+              <li *ngFor="let dep of dependencySearchResult">
+                <a (click)="addSearchDependency(dep)">
+                  <div>
+                    <b>{{ dep.name }}</b>
+                  </div>
+                  <div>{{ dep.version }}</div>
+                </a>
+              </li>
+            </ul>
+            <div class="col-sm-5 browse"
+                (click)="showPackageModal($event)"
+                *ngIf="existDependencies?.length"
+                tooltip="Lists all the dependencies for the selected runtime {{boosterInfo?.runtime?.name ? '-' + boosterInfo.runtime.name : ''}}">
+                Browse All Dependencies
+            </div>
+            <div class="col-sm-5 browse ubrowse"
+                *ngIf="!existDependencies">Browse All Dependencies</div>
+          </div>
+        </h2>
+        <section class="fit dependency-strech">
+          <div *ngIf="existDependencies?.length">
+            <span *ngFor="let dependency of existDependencies" class="chip label label-default">{{dependency.package}}</span>
+          </div>
+        </section>
+        <section class="fit dependency-strech" *ngIf="dependencies?.length || dependencyAdded?.length">
+          <div>
+            <span *ngFor="let dependency of dependencies" class="chip label label-primary">{{dependency.name}}
+              <span class="close-icon" (click)="removeDependency(dependency)">
+                <span class="pficon pficon-close"></span>
+              </span>
+            </span>
+          </div>
+        </section>
+        <div class="card-pf-body" *ngIf="!dependencies">
+          <div class="pre-loader">
+            <div class="pre-loader-spinner spinner spinner-lg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal #PackagePreview id="PackagePreview" modalClass="modal-lg modal-fullscreen browse-modal" title="Choose Dependency"
+  role="dialog">
+  <modal-content class="contents" *ngIf="!categoryResult || categoryResult.length === 0 || !masterTags">
+      <div class="modal-body">
+        <div class="pre-loader">
+          <div class="pre-loader-spinner spinner spinner-lg"></div>
+        </div>
+      </div>
+  </modal-content>
+  <modal-content class="contents" *ngIf="categoryResult && categoryResult.length > 0 && masterTags">
+    <div class="modal-body">
+      <div class="input-group date search-dependencies">
+        <input class="form-control search-box" type="text" [(ngModel)]="queryString" placeholder="Search for Dependencies..">
+        <span class="input-group-addon" aria-hidden="true">
+          <span class="pficon-search"></span>
+        </span>
+      </div>
+      <div class="main">
+        <div class="toast-pf alert alert-success alert-dismissable" *ngIf="toast">
+          <button type="button" class="close alert-close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close" (click)="toast=!toast"></span>
+          </button>
+          <span class="pficon pficon-ok"></span>
+          <ng-template ngFor let-tagname [ngForOf]="saveTagname">
+            <span *ngIf="tagname.type !== false">
+              <b>{{tagname.name}}{{saveTagname.length - 1 ? '' : ','}}</b>
+            </span>
+          </ng-template> has been added.
+        </div>
+        <div class="categories">
+          <div class="list-group list-view-pf list-view-pf-view tag-list">
+            <div (click)="handleCategoryClick('All', 0)" [ngClass]="{'list-group-item tag-list-item': true, 'active-category': categoriesStore[0]?.isOpened}">
+              <div class="list-view-pf-actions">
+                <label class="mix-label">{{tagZero}}</label>
+              </div>
+              <div class="list-view-pf-main-info">
+                <div class="list-view-pf-body">
+                  <div class="list-view-pf-description">
+                    <div class="list-group-item-heading">
+                      All
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div (click)="handleCategoryClick(tags?.packages[0]?.category, i + 1)" [ngClass]="{'list-group-item tag-list-item-n': true, 'active-category': categoriesStore[i + 1]?.isOpened}" *ngFor="let tags of categoryResult; let i = index">
+              <div class="list-view-pf-actions">
+                <label class="mix-label">{{getPackageCount(tags.packages)}}</label>
+              </div>
+              <div class="list-view-pf-main-info" *ngIf="tags.packages">
+                <div class="list-view-pf-body">
+                  <div class="list-view-pf-description">
+                    <div class="list-group-item-heading">
+                      {{tags.packages[0].category}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dependencies">
+          <div class="depn">
+            <div class="depn-select">{{noOfTags}} Dependencies selected
+              <span id="select">
+                <button class="added" (click)="addDependency()" [ngStyle]="{'border': noOfTags > 0 ? '1px solid #00659c' : '1px solid #d1d1d1' , 'background-image': noOfTags > 0 ? 'linear-gradient(-180deg, #39a5dc 0%, #0088ce 100%)' : 'none','color': noOfTags > 0 ? '#fff' : '#8b8d8f'}">
+                  Add ({{noOfTags}})</button>
+              </span>
+            </div>
+            <div class="display-dependencies">
+              <div class="list-group list-view-pf" *ngFor="let master of masterTags | FilterPipe: queryString || categoryString; let i = index;">
+                <div class="list-group-item list-view-pf-stacked list-view-pf-top-align" [ngStyle]="{'background-color' : master.type ? '#def3ff' : (master.grouped ? '#ededed' : '#fff')}">
+                  <div class="check">
+                      <input type="checkbox" [disabled]="master.grouped" [checked]="master.type" (change)="changeTagname(master,master.type)">
+                  </div>
+                  <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body-container">
+                        <div class="list-view-pf-body">
+                      <div class="col-sm-3 list-view-pf-description">
+                        <div class="list-group-item-heading">
+                          <label class="control control--checkbox">{{master.name}}
+                          </label>
+                        </div>
+                        <div>
+                          <div>
+                            <div *ngFor="let cat of master?.category" class="tag-border">{{cat}}</div>
+                            <div class="grouped col-sm-4" *ngIf="master.grouped">Added</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-9 no-padding list-view-pf-additional-info">
+                        <div class="no-padding list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked col-sm-8">
+                          <div class="col-sm-6 master-version">
+                            <label (click)="false" class="dropbtn drop-toggle">
+                              {{master.version || 'NA'}}
+                            </label>
+                          </div>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked col-xs-4 block">
+                          <strong *ngIf="master?.security?.length">
+                            <span class="pficon-warning-triangle-o"></span>
+                          </strong>
+                          <strong *ngIf="!master?.security?.length">
+                            <span class="pficon-ok"></span>
+                          </strong>
+                          <span id="sec">Security</span>
+                        </div>
+                      </div>
+                      </div>
+                      <div class="list-group-item-text" *ngIf="master.description">
+                        <p *ngIf="!master.showMore" class="description">{{master.description | maxLength: 10}}</p>
+                        <p *ngIf="master.showMore" class="description">{{master.description}}</p>
+                        <a href="javascript:void(0);" (click)="master.showMore = master.showMore === undefined ? true : !master.showMore">
+                          {{master.showMore ? 'Less' : 'More'}}
+                        </a> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default foot-button-edit" data-dismiss="modal" (click)="closemodal()">Done</button>
+    </div>
+  </modal-content>
+</modal>

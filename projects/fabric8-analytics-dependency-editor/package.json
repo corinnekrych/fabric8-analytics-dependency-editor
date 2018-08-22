@@ -1,0 +1,15 @@
+{
+  "name": "fabric8-analytics-dependency-editor",
+  "version": "0.0.1",
+  "dependencies": {
+    "c3": "^0.4.18",
+    "lodash": "^4.17.10",
+    "ngx-base": "^2.3.6",
+    "ngx-bootstrap": "^3.0.1",
+    "ngx-modal": "^0.0.29"
+  },
+  "peerDependencies": {
+    "@angular/common": "^6.1.0",
+    "@angular/core": "^6.1.0"
+  }
+}

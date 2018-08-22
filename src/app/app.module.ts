@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AnalyticsUrlService } from './shared/analytics-url.service';
+
 import { AppComponent } from './app.component';
-import { DependencyEditorModule } from './dependency-editor/dependency-editor.module';
+import { DependencyEditorModule }
+from '../../projects/fabric8-analytics-dependency-editor/src/lib/dependency-editor/dependency-editor.module';
+import { URLProvider } from '../../projects/fabric8-analytics-dependency-editor/src/lib/shared/url-provider';
+import { DependencyEditorTokenProvider } from '../../projects/fabric8-analytics-dependency-editor/src/lib/shared/depeditor-tokenprovider';
 import { MockAuthenticationService } from './shared/mock-auth-service';
-import { DependencyEditorTokenProvider } from './shared/depeditor-tokenprovider';
-import { URLProvider } from './shared/url-provider';
 
 @NgModule({
   declarations: [

@@ -140,13 +140,15 @@ run `npm start`.
 
 ** To hit stack analysis api in standalone mode**
 
-To target PROD env, export below variables
+To target PROD env in your demo app, go to [src/environments/environment.ts](src/environments/environment.ts)
 
 ```
-
-export ANALYTICS_RECOMMENDER_URL='https://recommender.api.openshift.io/'
-export ANALYTICS_LICENSE_URL='https://license-analysis.api.openshift.io/'
-export OSIO_AUTH_TOKEN='OSIO-TOKEN'
+export const environment = {
+  production: false,
+  ANALYTICS_RECOMMENDER_URL: 'https://recommender.api.openshift.io/',
+  ANALYTICS_LICENSE_URL: 'https://license-analysis.api.openshift.io/',
+  OSIO_AUTH_TOKEN: 'OSIO_AUTH_TOKEN'
+};
 
 ```
 To get OSIO-TOKEN follow below steps :
@@ -159,6 +161,7 @@ To get OSIO-TOKEN follow below steps :
 
 4. Copy token 
 
+> TODO: a prebuild task similaras disscussed [here](https://github.com/angular/angular-cli/issues/4318#issuecomment-318359461 ) to read env variable dynamically.
 == CSS and LESS
 
 fabric8-analytics-dep-editor uses LESS for it's stylesheets. It also uses the Angular emulation
