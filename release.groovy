@@ -5,7 +5,7 @@ def ci (){
         sh 'npm run build'
     }
     stage('functional test'){
-        sh 'npm run test:unit'
+        sh 'npm run test'
     }
 }
 

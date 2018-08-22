@@ -75,16 +75,11 @@ Here are some of the most useful/frequently used scripts you may need to run:
 |Validates the webpack build
 
 |Unit Tests
-|`$ npm run test:unit`
+|`$ npm run test:lib:dev`
+|Runs the unit tests in watch mode
+
+|`$ npm run test:lib`
 |Runs the unit tests
-
-|Functional Tests
-|`$ npm run test:func`
-|Runs the functional tests
-
-|Continuous Tests
-|`$ npm run watch:test`
-|Looks for changes in source code and runs unit tests
 |===
 
 == Building the app
