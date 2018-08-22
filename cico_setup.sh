@@ -37,7 +37,7 @@ install_dependencies() {
 
 run_unit_tests() {
   # Exec unit tests
-  npm run test:unit
+  npm run test
 
   if [ $? -eq 0 ]; then
       echo 'CICO: unit tests OK'
