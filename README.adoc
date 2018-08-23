@@ -49,7 +49,8 @@ To get OSIO-TOKEN follow below steps :
 
 4. Copy token
 
-TODO: a prebuild task similar as discussed [here](https://github.com/angular/angular-cli/issues/4318#issuecomment-318359461 ) to read env variable dynamically.
+5. Set env variable
+    `export OSIO-TOKEN = "token fetched in step 4"`
 
 === Start demo
 ----
@@ -58,6 +59,11 @@ npm run build
 npm start
 ----
 Go to http://localhost:4200/
+
+=== Before Commiting your changes, make sure to clean your environment
+----
+npm run clean:env
+----
 
 === others
 Here are some of the most useful/frequently used scripts you may need to run:

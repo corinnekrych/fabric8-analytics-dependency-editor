@@ -11,6 +11,7 @@
     "build": "npm run build:lib && npm run build:app",
     "build:app": "ng build --output-hashing=all",
     "rimraf": "rimraf",
+    "reinstall": "npm cache verify && npm install",
     "test": "npm run test:lib",
     "test:app": "ng test --watch=false",
     "test:lib": "ng test fabric8-analytics-dependency-editor --watch=false --browsers ChromeHeadlessNoSandbox",
@@ -21,6 +22,8 @@
     "lint:fix": "npm run lint:app:fix && npm run lint:lib:fix",
     "install:lib": "cd projects/fabric8-analytics-dependency-editor && npm i",
     "prebuild:lib": "npm run install:lib",
+    "prebuild:app": "replace '%OSIO_AUTH_TOKEN%' $OSIO_AUTH_TOKEN src/environments/environment.ts",
+    "clean:env": "git checkout src/environments/environment.ts",
     "build:lib": "ng build --prod fabric8-analytics-dependency-editor",
     "pack:lib": "cd dist/fabric8-analytics-dependency-editor && npm pack",
     "package": "npm run build:lib && npm run pack:lib",
@@ -63,13 +66,13 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^3.0.0",
     "protractor": "~5.3.0",
+    "replace": "^1.0.0",
+    "rimraf": "2.6.2",
+    "semantic-release": "8.2.0",
     "ts-node": "~5.0.1",
     "tsickle": ">=0.29.0",
     "tslib": "^1.9.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2",
-    "replace": "^1.0.0",
-    "rimraf": "2.6.2",
-    "semantic-release": "8.2.0"
+    "typescript": "~2.7.2"
   }
 }
