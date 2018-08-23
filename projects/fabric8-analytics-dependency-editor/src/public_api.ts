@@ -3,4 +3,5 @@
  */
 
 export { DependencyEditorModule } from './lib/dependency-editor/dependency-editor.module';
-
+export { URLProvider } from './lib/shared/url-provider';
+export { DependencyEditorTokenProvider } from './lib/shared/depeditor-tokenprovider';
