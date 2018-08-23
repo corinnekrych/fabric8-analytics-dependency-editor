@@ -156,7 +156,10 @@ To get OSIO-TOKEN follow below steps :
 
 4. Copy token 
 
-> TODO: a prebuild task similaras disscussed [here](https://github.com/angular/angular-cli/issues/4318#issuecomment-318359461 ) to read env variable dynamically.
+Go to http://localhost:4200/
+
+> TODO: a prebuild task similar as discussed [here](https://github.com/angular/angular-cli/issues/4318#issuecomment-318359461 ) to read env variable dynamically.
+
 == CSS and LESS
 
 fabric8-analytics-dep-editor uses LESS for it's stylesheets. It also uses the Angular emulation
