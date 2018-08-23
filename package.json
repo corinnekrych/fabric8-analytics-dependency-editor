@@ -41,6 +41,7 @@
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26",
     "c3": "^0.4.18",
+    "patternfly": "^3.28.0",
     "ngx-bootstrap": "^3.0.1"
   },
   "devDependencies": {
