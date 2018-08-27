@@ -22,7 +22,7 @@
     "lint:fix": "npm run lint:app:fix && npm run lint:lib:fix",
     "install:lib": "cd projects/fabric8-analytics-dependency-editor && npm i",
     "prebuild:lib": "npm run install:lib",
-    "prebuild:app": "replace '%OSIO_AUTH_TOKEN%' $OSIO_AUTH_TOKEN src/environments/environment.ts",
+    "prebuild:app": "replace 'src/environments/environment.ts' $OSIO_AUTH_TOKEN src/environments/environment.ts",
     "clean:env": "git checkout src/environments/environment.ts",
     "build:lib": "ng build --prod fabric8-analytics-dependency-editor",
     "pack:lib": "cd dist/fabric8-analytics-dependency-editor && npm pack",
